@@ -150,7 +150,7 @@ The user's path is two steps: install `fabric_items/`, then run or schedule
 - **The items are in `fabric_items/`, and both installs are told so.** Jumpstart looks in
   `<logical_id>/` unless it is given `workspace_path`, so the README's snippet and
   `install_jumpstart.py` pass `workspace_path="fabric_items/"`. Both installs put the items
-  in a workspace folder named after the `logical_id`, `fabric-medallion-dbt`.
+  in a workspace folder named after the `logical_id`, `medallion-dbt`.
 - **Item names are rewritten as whole words when Jumpstart applies a prefix**, in every text
   file under `fabric_items/`. No prefix is applied by default. Before one is, `run`,
   `dbt`, `ingest` and `parity` have to be renamed: as they stand, a prefix would rewrite
@@ -263,9 +263,15 @@ The user's path is two steps: install `fabric_items/`, then run or schedule
   pins the cast.
 - **T-SQL pads strings on comparison** (`'ERB01' = 'ERB01 '` is TRUE); Spark does not. One
   trailing space in a join key can split the engines while every test stays green.
-- **`DOUBLE → DECIMAL` tie-breaking differs** (HALF_UP on Spark, something else in T-SQL),
-  which is why the `parity` notebook gives the money columns a relative tolerance and
-  exact-matches everything else.
+- **`DOUBLE → DECIMAL` tie-breaking differs.** Spark rounds the shortest decimal form of the
+  double (`0.19005` → `0.1901`), T-SQL its exact binary value (`0.190049999…` → `0.1900`).
+  Every AEMO price ending in 5 at the 5th decimal split the engines by 0.0001: about 500k rows
+  in production, and three days past parity's tolerance. `fct_summary` therefore casts `mw`
+  and `price` through `DECIMAL(18, 6)` before `DECIMAL(18, 4)`, which holds the source value
+  exactly on both engines, and DECIMAL → DECIMAL rounds half away from zero on both.
+  `tests_py/test_decimal_rounding.py` pins it. A table built before the fix keeps the old
+  rounding on dates outside the rebuild window, so drop `fct_summary` once on both engines.
+  The `parity` notebook's relative tolerance on the money columns stays as a guard.
 - **dbt-fabricspark is pinned to 1.13.4** (1.13.5 rejects the profile with "'database' is a
   required property"), and the `run` notebook sets `DBT_FABRICSPARK_SKIP_OPTIMIZE=true` because 1.13.x runs
   OPTIMIZE after every Delta build, rewriting the layout the run just produced.

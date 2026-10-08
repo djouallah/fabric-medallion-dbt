@@ -35,11 +35,11 @@ at `repo_ref`, and again only if `repo_ref` changes or the folder is deleted.
 
 ## What it creates in Fabric
 
-Three items hold the data, all inside one workspace folder, `fabric-medallion-dbt`, created
+Three items hold the data, all inside one workspace folder, `medallion-dbt`, created
 by the install:
 
 ```
-fabric-medallion-dbt/
+medallion-dbt/
 ├── dbt_landing   Lakehouse  csv_raw/ + the archive log. Written ONCE, read by both engines.
 ├── dbt           Lakehouse  spark_landing, spark_mart; and Files/landing, a shortcut to
 │                            dbt_landing that the Warehouse reads through

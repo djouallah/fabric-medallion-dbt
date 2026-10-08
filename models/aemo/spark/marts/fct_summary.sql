@@ -115,8 +115,14 @@ SELECT
   date,
   time,
   DUID,
-  CAST(mw AS DECIMAL(18, 4)) AS mw,
-  CAST(price AS DECIMAL(18, 4)) AS price,
+  -- THROUGH DECIMAL(18, 6) FIRST, on both engines. mw and price are DOUBLEs parsed from
+  -- AEMO's text (up to 5 decimals), and a direct DOUBLE -> DECIMAL(18, 4) breaks ties
+  -- differently: Spark rounds the shortest decimal form of the double (0.19005 -> 0.1901),
+  -- T-SQL its exact binary value (0.190049999... -> 0.1900). Every price ending in 5 split
+  -- the engines by 0.0001, ~500k rows in production. 6 decimals hold the source value
+  -- exactly on both, and DECIMAL -> DECIMAL rounds half away from zero on both.
+  CAST(CAST(mw AS DECIMAL(18, 6)) AS DECIMAL(18, 4)) AS mw,
+  CAST(CAST(price AS DECIMAL(18, 6)) AS DECIMAL(18, 4)) AS price,
   -- Provenance column only: no read path depends on it. Both engines keep it, so their
   -- tables have the same columns.
   greatest(

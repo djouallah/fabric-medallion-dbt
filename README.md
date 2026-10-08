@@ -22,7 +22,7 @@ In a Fabric notebook, in the workspace you want it in:
 !pip install -q fabric-jumpstart
 import fabric_jumpstart as jumpstart
 jumpstart._install_from_github(
-    logical_id="fabric-medallion-dbt",
+    logical_id="medallion-dbt",
     repo_url="https://github.com/djouallah/fabric-medallion-dbt",
     repo_ref="main",
     workspace_path="fabric_items/",
@@ -48,7 +48,7 @@ Each notebook holds its own code, so opening one shows what the step does. `depl
 This is the demo install, and it needs a public repo: Jumpstart clones it from GitHub, and
 on the first run `ingest` downloads the dbt project from it, once, into
 `dbt_landing/Files/project/`. Delete that folder to download it again. The entry for the
-Jumpstart catalog, which would shorten this to `jumpstart.install("fabric-medallion-dbt")`,
+Jumpstart catalog, which would shorten this to `jumpstart.install("medallion-dbt")`,
 is prepared in [jumpstart/](jumpstart/README.md).
 
 ## Production: develop in VS Code, deploy from CI, run in Fabric

@@ -1,5 +1,5 @@
 id: 30
-logical_id: fabric-medallion-dbt
+logical_id: medallion-dbt
 name: Medallion with dbt on Warehouse and Spark
 description: >-
   One dbt project builds the same AEMO electricity gold layer on Fabric Warehouse
@@ -33,7 +33,7 @@ minutes_to_deploy: 3
 minutes_to_complete_jumpstart: 10
 video_url: ""
 difficulty: Intermediate
-last_updated: "2026-09-30"
+last_updated: "2026-10-09"
 mermaid_diagram: |
   graph LR
 

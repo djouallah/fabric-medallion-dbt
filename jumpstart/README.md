@@ -1,15 +1,15 @@
 # The Fabric Jumpstart catalog entry
 
 This folder holds what the catalog needs to list this repo, so that
-`jumpstart.install("fabric-medallion-dbt")` works. It is submitted as
+`jumpstart.install("medallion-dbt")` works. It is submitted as
 microsoft/fabric-jumpstart#231, and this folder stays its source: change it here, then copy it
 to the PR branch. Nothing in this folder is installed into a workspace.
 
 | here | goes to, in a fork of `microsoft/fabric-jumpstart` |
 |---|---|
-| `fabric-medallion-dbt.yml` | `src/fabric_jumpstart/fabric_jumpstart/jumpstarts/community/` |
-| `fabric-medallion-dbt_light.svg`, `_dark.svg` | `assets/images/diagrams/` |
-| `content/fabric-medallion-dbt/` | `src/fabric_jumpstart_web/content/scenarios/` |
+| `medallion-dbt.yml` | `src/fabric_jumpstart/fabric_jumpstart/jumpstarts/community/` |
+| `medallion-dbt_light.svg`, `_dark.svg` | `assets/images/diagrams/` |
+| `content/medallion-dbt/` | `src/fabric_jumpstart_web/content/scenarios/` |
 
 `tests_py/test_jumpstart_entry.py` pins the entry to `install_jumpstart.INSTALL`, and to the
 rules of the catalog's own schema.
@@ -19,10 +19,10 @@ generator, so they carry its theme, as the maintainers asked. Re-render both whe
 mermaid changes: in a clone of `microsoft/fabric-jumpstart`, `npm install`, `npm install` in
 `src/fabric_jumpstart_web`, then `npm run render-diagrams`, or paste the mermaid into
 <https://jumpstart.fabric.microsoft.com/tools/diagram-generator> with the slug
-`fabric-medallion-dbt`. On Windows the script finds no entries: line 169 hands `glob` a
+`medallion-dbt`. On Windows the script finds no entries: line 169 hands `glob` a
 backslashed path, so run it with `glob.sync('*.yml', { cwd: dir, absolute: true })` there.
 
-The page's picture, `content/fabric-medallion-dbt/images/medallion-fabric-dbt.svg`, is the
+The page's picture, `content/medallion-dbt/images/medallion-fabric-dbt.svg`, is the
 repo's own Excalidraw drawing, `docs/medallion-fabric-dbt.svg`, in its LIGHT form, without
 the root `filter="invert(...)"`, because light is the site's default theme.
 

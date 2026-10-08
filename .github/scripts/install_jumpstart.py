@@ -26,7 +26,7 @@ ITEMS = REPO / "fabric_items"
 
 INSTALL = {
     # Also the name of the workspace folder the items are installed into.
-    "logical_id": "fabric-medallion-dbt",
+    "logical_id": "medallion-dbt",
     "repo_url": "https://github.com/djouallah/fabric-medallion-dbt",
     # Where the items are in the repo. Without it Jumpstart looks in `<logical_id>/`.
     "workspace_path": "fabric_items/",
